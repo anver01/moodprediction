@@ -26,9 +26,9 @@ MEDIA_DIR = BASE_DIR / 'media'
 SECRET_KEY = 't#4&b4xgdf&f=$1bwrt(rfq$^=e+ov&gh!22(vyy)#rjj#0z8i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['http://django-env.eba-ae6zc2bj.us-west-2.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['https://moodpredictor.herokuapp.com/', 'localhost']
 
 
 # Application definition

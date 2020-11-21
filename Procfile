@@ -1,0 +1,1 @@
+web: gunicorn mood_prediction.wsgi --log-file -
