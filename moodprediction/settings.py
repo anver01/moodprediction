@@ -28,7 +28,7 @@ SECRET_KEY = 't#4&b4xgdf&f=$1bwrt(rfq$^=e+ov&gh!22(vyy)#rjj#0z8i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://moodpredictor.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['moodpredictor.herokuapp.com/']
 
 
 # Application definition
