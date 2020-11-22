@@ -24,12 +24,24 @@ class Converter(object):
             gray,
             scaleFactor=1.3,
             minNeighbors=3,
-            minSize=(30, 30)
+            minSize=(48, 48)
         )
 
-        for (x, y, w, h) in faces:
-            fc = gray[y:y + h, x:x + w]
-            roi = cv2.resize(fc, (48, 48))
+        if len(faces) > 1:
+            faces = faceCascade.detectMultiScale(
+                gray,
+                scaleFactor=1.3,
+                minNeighbors=4,
+                minSize=(48, 48)
+            )
+            for (x, y, w, h) in faces:
+                fc = gray[y:y + h, x:x + w]
+                roi = cv2.resize(fc, (48, 48))
+        
+        else:
+            for (x, y, w, h) in faces:
+                fc = gray[y:y + h, x:x + w]
+                roi = cv2.resize(fc, (48, 48))
 
         #image = tf.keras.preprocessing.image.load_img(self.filelink, target_size=(48, 48), color_mode="grayscale")
         #test_image_array = tf.keras.preprocessing.image.img_to_array(image)
