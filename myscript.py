@@ -1,5 +1,4 @@
 from model import FacialExpressionModel
-import tensorflow as tf
 import numpy as np
 import cv2
 import numpy as np
@@ -8,6 +7,7 @@ import numpy as np
 faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
 model = FacialExpressionModel("model.json", "Final_model.h5")
+
 # 1. Image will be served to this script, it will convert image to array
 # 2. The array will be transferred to the model to predict and return the result
 # 3. The result will be displayed through a view
