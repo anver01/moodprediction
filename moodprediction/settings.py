@@ -38,7 +38,7 @@ CSRF_COOKIE_SECURE = True
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ADMIN_ENABLED = False
 
