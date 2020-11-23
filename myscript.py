@@ -3,7 +3,6 @@ import numpy as np
 import cv2
 import numpy as np
 
-
 faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
 model = FacialExpressionModel("model.json", "Final_model.h5")
@@ -15,7 +14,8 @@ model = FacialExpressionModel("model.json", "Final_model.h5")
 class Converter(object):
 
     def __init__(self, link):
-        self.filelink = link
+        self.filelink = link[1:]
+        print(self.filelink)
 
     def convert(self):
         image = cv2.imread(self.filelink)
@@ -27,12 +27,15 @@ class Converter(object):
             minSize=(48, 48)
         )
 
+        if len(faces) == 0:
+            return "No Face Detected! Try Again"
+
         if len(faces) > 1:
             faces = faceCascade.detectMultiScale(
                 gray,
                 scaleFactor=1.3,
                 minNeighbors=4,
-                minSize=(48, 48)
+                minSize=(80, 80)
             )
             for (x, y, w, h) in faces:
                 fc = gray[y:y + h, x:x + w]

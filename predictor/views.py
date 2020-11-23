@@ -35,7 +35,8 @@ def index(request):
 
 def result(request):
     result_dict['image'] = ImageUpload.objects.last()
-
-    result_dict['result'] = Converter('.' + settings.MEDIA_URL + 'face_images/' + result_dict['filename']).convert()
+    
+    result_dict['result'] = Converter(str(result_dict['image'].img.url)).convert()
+    ImageUpload.objects.last().delete()
 
     return render(request, 'predictor/result.html', context=result_dict)
