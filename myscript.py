@@ -1,6 +1,9 @@
 from model import FacialExpressionModel
-import tensorflow as tf
 import numpy as np
+import cv2
+import numpy as np
+
+faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
 model = FacialExpressionModel("model.json", "Final_model.h5")
 
@@ -11,11 +14,41 @@ model = FacialExpressionModel("model.json", "Final_model.h5")
 class Converter(object):
 
     def __init__(self, link):
-        self.filelink = link
+        self.filelink = link[1:]
+        print(self.filelink)
 
     def convert(self):
-        image = tf.keras.preprocessing.image.load_img(self.filelink, target_size=(48, 48), color_mode="grayscale")
-        test_image_array = tf.keras.preprocessing.image.img_to_array(image)
-        test_image_array = np.expand_dims(test_image_array, axis=0)
-        result = model.predict_emotion(test_image_array)
+        image = cv2.imread(self.filelink)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        faces = faceCascade.detectMultiScale(
+            gray,
+            scaleFactor=1.3,
+            minNeighbors=3,
+            minSize=(48, 48)
+        )
+
+        if len(faces) == 0:
+            return "No Face Detected! Try Again"
+
+        if len(faces) > 1:
+            faces = faceCascade.detectMultiScale(
+                gray,
+                scaleFactor=1.3,
+                minNeighbors=4,
+                minSize=(80, 80)
+            )
+            for (x, y, w, h) in faces:
+                fc = gray[y:y + h, x:x + w]
+                roi = cv2.resize(fc, (48, 48))
+        
+        else:
+            for (x, y, w, h) in faces:
+                fc = gray[y:y + h, x:x + w]
+                roi = cv2.resize(fc, (48, 48))
+
+        #image = tf.keras.preprocessing.image.load_img(self.filelink, target_size=(48, 48), color_mode="grayscale")
+        #test_image_array = tf.keras.preprocessing.image.img_to_array(image)
+        #test_image_array = np.expand_dims(test_image_array, axis=0)
+        result = model.predict_emotion(roi[np.newaxis, :, :, np.newaxis])
         return result
+

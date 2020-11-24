@@ -3,3 +3,6 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+moodprediction/local_settings.py
+moodprediction/.env
