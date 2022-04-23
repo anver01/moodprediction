@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from predictor.forms import ImageForm
 from predictor.models import ImageUpload
@@ -6,10 +7,12 @@ from django.http import HttpResponseRedirect
 from myscript import Converter
 from django.conf import settings
 from django.forms import modelformset_factory
+from rest_framework import viewsets
 
 # Create your views here.
 
 result_dict = {}
+
 
 def index(request):
 
@@ -30,13 +33,17 @@ def index(request):
     else:
         form = ImageForm()
 
-    return render(request, 'predictor/index.html', {'form':form})
+    return render(request, 'predictor/index.html', {'form': form})
 
 
 def result(request):
     result_dict['image'] = ImageUpload.objects.last()
-    
-    result_dict['result'] = Converter(str(result_dict['image'].img.url)).convert()
+
+    result_dict['result'] = Converter(
+        str(result_dict['image'].img.url)).convert()
     ImageUpload.objects.last().delete()
 
     return render(request, 'predictor/result.html', context=result_dict)
+
+
+class PostImageView(viewsets.GenericViewSet):

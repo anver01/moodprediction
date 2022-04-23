@@ -14,7 +14,7 @@ from pathlib import Path
 import environ
 import os
 
-#Environment Variable Settigs
+# Environment Variable Settigs
 env = environ.Env()
 # reading .env file
 environ.Env.read_env()
@@ -30,7 +30,7 @@ MEDIA_DIR = BASE_DIR / 'media'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-#Production Settings
+# Production Settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'predictor',
     'storages',
+    'rest_framework',
 ]
 
 if ADMIN_ENABLED is True:
@@ -77,7 +78,7 @@ ROOT_URLCONF = 'moodprediction.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR,],
+        'DIRS': [TEMPLATES_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,9 +147,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, ]
 
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL  = '/media/'
+MEDIA_URL = '/media/'
 
-#S3 Bucket Config
+# S3 Bucket Config
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
