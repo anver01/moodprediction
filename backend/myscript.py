@@ -1,9 +1,10 @@
 from model import FacialExpressionModel
 import numpy as np
 import cv2
-import numpy as np
+import urllib
 
-faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+faceCascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
 model = FacialExpressionModel("model.json", "Final_model.h5")
 
@@ -11,14 +12,18 @@ model = FacialExpressionModel("model.json", "Final_model.h5")
 # 2. The array will be transferred to the model to predict and return the result
 # 3. The result will be displayed through a view
 
+
 class Converter(object):
 
     def __init__(self, link):
-        self.filelink = link[1:]
+        self.filelink = link
         print(self.filelink)
 
     def convert(self):
-        image = cv2.imread(self.filelink)
+        # image = cv2.imread(self.filelink)
+        req = urllib.request.urlopen(self.filelink)
+        image = np.asarray(bytearray(req.read()), dtype=np.uint8)
+        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = faceCascade.detectMultiScale(
             gray,
@@ -40,7 +45,7 @@ class Converter(object):
             for (x, y, w, h) in faces:
                 fc = gray[y:y + h, x:x + w]
                 roi = cv2.resize(fc, (48, 48))
-        
+
         else:
             for (x, y, w, h) in faces:
                 fc = gray[y:y + h, x:x + w]
@@ -51,4 +56,3 @@ class Converter(object):
         #test_image_array = np.expand_dims(test_image_array, axis=0)
         result = model.predict_emotion(roi[np.newaxis, :, :, np.newaxis])
         return result
-
