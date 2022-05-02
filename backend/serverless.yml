@@ -1,0 +1,55 @@
+service: moodpredictor
+
+# plugins:
+  # - serverless-python-requirements
+  # - serverless-wsgi
+
+# custom:
+#   wsgi:
+#     app: app.app
+#     packRequirements: false
+  # pythonRequirements:
+  #   dockerizePip: true
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ap-south-1
+  ecr:
+    images:
+      latest:
+        path: ./
+  # deploymentBucket:
+  #   name: serverless-deployment-bucket
+  #   maxPreviousDeploymentArtifacts: 5
+  #   blockPublicAccess: true
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+package:
+ patterns:
+  #  - '!exclude-me.py'
+   - '!.env/**'
+   - '!node_modules/**'
+   - '!lambda-layer/**'
+  #  - include-me.py
+  #  - include-me-dir/**
+
+functions:
+  predictor:
+    # handler: wsgi_handler.handler
+    name: moodpredictor-backend-${sls:stage}
+    memorySize: 1024
+    timeout: 30
+    image:
+      name: latest
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}

@@ -1,0 +1,1 @@
+{"name":"backend","description":"","version":"0.1.0","devDependencies":{"serverless":"^3.15.2","serverless-python-requirements":"^5.4.0","serverless-wsgi":"^3.0.0"}}
