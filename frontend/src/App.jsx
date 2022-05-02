@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-import { config } from "./aws-config";
+import { config } from "./aws-exports";
 
 import AWS from "aws-sdk";
 import axios from "axios";
-import { BACKEND_URL } from "./constants";
 
 AWS.config.update({
-  accessKeyId: config.accessKeyId,
-  secretAccessKey: config.secretAccessKey,
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.SECRET_KEY,
 });
 
 const myBucket = new AWS.S3({
@@ -20,17 +19,21 @@ const myBucket = new AWS.S3({
 function App() {
   const ref = useRef();
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleUpload = (e) => {
     setFile(e.target.files[0]);
   };
 
   const handleSuccess = async () => {
-    const response = await axios.post(BACKEND_URL, {
+    setLoading(true);
+    const response = await axios.post(process.env.BACKEND_URL, {
       bucket: config.bucketName,
       file: file.name,
     });
-    console.log(response.data);
+    setImage({ image: response.data.img_url, result: response.data.result });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -64,12 +67,28 @@ function App() {
           onChange={handleUpload}
         />
         <button
-          className="px-4 py-2 rounded bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-medium"
+          disabled={loading}
+          className="px-4 py-2 rounded bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-medium flex items-center justify-center"
+          style={{ minWidth: "200px" }}
           onClick={() => ref.current.click()}
         >
-          Upload
+          {loading ? (
+            <img
+              className="animate-spin h-8 w-8"
+              src="spinner.svg"
+              alt="Loading"
+            />
+          ) : (
+            "Upload"
+          )}
         </button>
         {file && <span className="font-medium">Uploaded! - {file.name}</span>}
+        {image && (
+          <div className="mt-10 flex flex-col items-center">
+            <img className="h-32" src={image.image} alt="User" />
+            <span>{image.result}</span>
+          </div>
+        )}
       </div>
     </div>
   );

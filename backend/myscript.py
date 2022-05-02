@@ -17,7 +17,6 @@ class Converter(object):
 
     def __init__(self, link):
         self.filelink = link
-        print(self.filelink)
 
     def convert(self):
         # image = cv2.imread(self.filelink)

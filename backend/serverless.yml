@@ -46,7 +46,8 @@ functions:
   predictor:
     # handler: wsgi_handler.handler
     name: moodpredictor-backend-${sls:stage}
-    memorySize: 512
+    memorySize: 1024
+    timeout: 30
     image:
       name: latest
     events:
