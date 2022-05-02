@@ -7,8 +7,8 @@ import AWS from "aws-sdk";
 import axios from "axios";
 
 AWS.config.update({
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_KEY,
+  accessKeyId: process.env.REACT_APP_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_SECRET_KEY,
 });
 
 const myBucket = new AWS.S3({
@@ -28,7 +28,7 @@ function App() {
 
   const handleSuccess = useCallback(async () => {
     setLoading(true);
-    const response = await axios.post(process.env.BACKEND_URL, {
+    const response = await axios.post(process.env.REACT_APP_BACKEND_URL, {
       bucket: config.bucketName,
       file: file.name,
     });
