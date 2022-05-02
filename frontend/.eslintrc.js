@@ -12,6 +12,7 @@ module.exports = {
     "prettier",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
   ],
   parserOptions: {
     ecmaVersion: "latest",
