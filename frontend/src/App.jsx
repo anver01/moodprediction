@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import { config } from "./aws-exports";
@@ -7,8 +7,8 @@ import AWS from "aws-sdk";
 import axios from "axios";
 
 AWS.config.update({
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_KEY,
+  accessKeyId: process.env.REACT_APP_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_SECRET_KEY,
 });
 
 const myBucket = new AWS.S3({
@@ -26,15 +26,15 @@ function App() {
     setFile(e.target.files[0]);
   };
 
-  const handleSuccess = async () => {
+  const handleSuccess = useCallback(async () => {
     setLoading(true);
-    const response = await axios.post(process.env.BACKEND_URL, {
+    const response = await axios.post(process.env.REACT_APP_BACKEND_URL, {
       bucket: config.bucketName,
       file: file.name,
     });
     setImage({ image: response.data.img_url, result: response.data.result });
     setLoading(false);
-  };
+  }, [file]);
 
   useEffect(() => {
     if (file) {
@@ -53,7 +53,7 @@ function App() {
           if (err) console.error(err);
         });
     }
-  }, [file]);
+  }, [file, handleSuccess]);
 
   return (
     <div className="h-screen bg-blue-200 text-red-800 text-center">

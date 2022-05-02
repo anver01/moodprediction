@@ -1,13 +1,10 @@
 module.exports = {
-  root: true,
   env: {
-    node: true,
-    jest: true,
     browser: true,
-    commonjs: true,
     es2021: true,
   },
   extends: [
+    "eslint:recommended",
     "standard",
     "prettier",
     "plugin:react/recommended",
@@ -24,16 +21,23 @@ module.exports = {
   },
   plugins: ["prettier"],
   rules: {
-    "space-before-function-paren": ["off"],
-    "object-shorthand": ["error", "properties"],
     semi: ["error", "always"],
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
+    "space-before-function-paren": ["off"],
+    "object-shorthand": ["error", "properties"],
     "prettier/prettier": [
       "error",
       {
         endOfLine: "auto",
       },
     ],
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx"],
+      },
+    },
   },
 };
