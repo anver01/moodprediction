@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import { config } from "./aws-exports";
@@ -26,7 +26,7 @@ function App() {
     setFile(e.target.files[0]);
   };
 
-  const handleSuccess = async () => {
+  const handleSuccess = useCallback(async () => {
     setLoading(true);
     const response = await axios.post(process.env.BACKEND_URL, {
       bucket: config.bucketName,
@@ -34,7 +34,7 @@ function App() {
     });
     setImage({ image: response.data.img_url, result: response.data.result });
     setLoading(false);
-  };
+  }, [file]);
 
   useEffect(() => {
     if (file) {
@@ -53,7 +53,7 @@ function App() {
           if (err) console.error(err);
         });
     }
-  }, [file]);
+  }, [file, handleSuccess]);
 
   return (
     <div className="h-screen bg-blue-200 text-red-800 text-center">
