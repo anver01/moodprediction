@@ -94,7 +94,7 @@ function App() {
         <div className="relative top-20 md:top-52 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 mx-8 md:mx-16">
           <div className="flex flex-col">
             <div className="text-center md:text-left">
-              <h1 className="text-5xl md:text-8xl font-bold">
+              <h1 className="text-6xl md:text-8xl font-bold">
                 <span className="text-[#FFAEBC] drop-shadow-sm">Mood</span>
                 <br />
                 <span className="text-[#FFAEBC] drop-shadow-sm">Predictor</span>
