@@ -200,7 +200,7 @@ function App() {
                 >
                   <img
                     className="w-24 h-24"
-                    src="./images/angry.jpeg"
+                    src="./images/angry.png"
                     alt="angry_memoji"
                   />
                   <h1 className="text-black opacity-60">Angry</h1>
@@ -223,7 +223,7 @@ function App() {
                 >
                   <img
                     className="w-24 h-24"
-                    src="./images/sad.jpeg"
+                    src="./images/sad.png"
                     alt="sad_memoji"
                   />
                   <h1 className="text-black opacity-60">Sad</h1>
